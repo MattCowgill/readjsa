@@ -1,20 +1,29 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # readjsa
 
 <!-- badges: start -->
-
 [![R-CMD-check](https://github.com/MattCowgill/readjsa/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MattCowgill/readjsa/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-{readjsa} streamlines the process of getting data from [Jobs and Skills
-Australia](https://www.jobsandskills.gov.au) into R.
+{readjsa} streamlines the process of getting data from [Jobs and Skills Australia](https://www.jobsandskills.gov.au) into R.
 
 ## Installation
 
-You can install the development version of readjsa from
-[GitHub](https://github.com/) with:
+You can install the development version of readjsa from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -23,21 +32,12 @@ devtools::install_github("MattCowgill/readjsa")
 
 ## Getting REOS data
 
-It’s straightforward to get data from the Recruitment Experience &
-Outlook Survey (REOS):
+It's straightforward to get data from the Recruitment Experience & Outlook Survey (REOS):
 
-``` r
+```{r reos-example}
 library(readjsa)
 library(ggplot2)
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 
 reos <- read_reos(tables = "all")
 
@@ -47,5 +47,3 @@ reos |>
   ggplot(aes(x = date, y = value, col = disaggregation)) +
   geom_line()
 ```
-
-<img src="man/figures/README-reos-example-1.png" width="100%" />
