@@ -1,4 +1,4 @@
-Package: readreos
+Package: readjsa
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
@@ -7,5 +7,18 @@ Authors@R:
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
+Roxygen: list(markdown = TRUE, roclets = c("collate", "namespace", "rd",
+    "roxyglobals::global_roclet"))
 RoxygenNote: 7.2.3
+Suggests: 
+    roxyglobals,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Imports: 
+    dplyr,
+    purrr,
+    readr,
+    readxl,
+    tidyr
+Config/roxyglobals/filename: globals.R
+Config/roxyglobals/unique: TRUE
