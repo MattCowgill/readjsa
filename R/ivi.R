@@ -27,23 +27,28 @@ read_ivi <- function(tables,
   }
 
   purrr::map_dfr(tables_to_read,
-          dl_and_read_ivi_table,
-          path = path,
-          .progress = "Reading IVI")
+    dl_and_read_ivi_table,
+    path = path,
+    .progress = "Reading IVI"
+  )
 }
 
 dl_and_read_ivi_table <- function(table,
                                   path) {
-
   urls <- possible_ivi_urls(table)
 
-  ivi_file <- dl_file(urls,
-                       file.path(path,
-                                 paste0("jsa_ivi_", table, ".xlsx")))
+  ivi_file <- dl_file(
+    urls,
+    file.path(
+      path,
+      paste0("jsa_ivi_", table, ".xlsx")
+    )
+  )
 
-  read_individual_ivi_table(ivi_file,
-                            table)
-
+  read_individual_ivi_table(
+    ivi_file,
+    table
+  )
 }
 
 #' @autoglobal
@@ -53,18 +58,22 @@ read_individual_ivi_table <- function(file,
   stopifnot(table %in% c("skill", "4dig", "2dig_states", "2dig_regions"))
 
   sheet <- switch(table,
-                  "skill" = c("Trend", "Seasonally Adjusted"),
-                  "4dig" = "4 digit 3 month average",
-                  "2dig_states" = c("Trend", "Seasonally Adjusted"),
-                  "2dig_regions" = "Averaged")
+    "skill" = c("Trend", "Seasonally Adjusted"),
+    "4dig" = "4 digit 3 month average",
+    "2dig_states" = c("Trend", "Seasonally Adjusted"),
+    "2dig_regions" = "Averaged"
+  )
 
-  raw_sheet <- purrr::map_dfr(sheet,
-      \(x) readxl::read_excel(file,
-                              sheet = x) |>
-        dplyr::mutate(series_type = x) |>
-        dplyr::mutate(series_type = dplyr::if_else(series_type %in% c("Trend", "Seasonally Adjusted"),
-                                                   series_type,
-                                     "3mma"))
+  raw_sheet <- purrr::map_dfr(
+    sheet,
+    \(x) readxl::read_excel(file,
+      sheet = x
+    ) |>
+      dplyr::mutate(series_type = x) |>
+      dplyr::mutate(series_type = dplyr::if_else(series_type %in% c("Trend", "Seasonally Adjusted"),
+        series_type,
+        "3mma"
+      ))
   )
 
   metadata_cols <- c(
@@ -77,7 +86,8 @@ read_individual_ivi_table <- function(file,
     "anzsco_code",
     "region",
     "table",
-    "series_type")
+    "series_type"
+  )
 
   tidy_sheet <- raw_sheet |>
     dplyr::mutate(table = table) |>
@@ -106,8 +116,9 @@ possible_ivi_urls <- function(table) {
 
   month_to_url_text <- function(date) {
     paste(format(date, "%B"),
-          format(date, "%Y"),
-          sep = "%20")
+      format(date, "%Y"),
+      sep = "%20"
+    )
   }
 
   prev_month_long <- month_to_url_text(prev_month)
@@ -116,10 +127,11 @@ possible_ivi_urls <- function(table) {
   base_url <- "https://www.jobsandskills.gov.au/sites/default/files/"
 
   table_specific_url_fragment <- switch(table,
-                                        "skill" = "%20Skill%20Level%2C%20States%20and%20Territories%20-%20",
-                                        "4dig" = "4%20Occupations%2C%20States%20and%20Territories%20-%20",
-                                        "2dig_states" = "2%20Occupations%2C%20States%20and%20Territories%20-%20",
-                                        "2dig_regions" = "2%20Occupations%2C%20IVI%20Regions%20-%20")
+    "skill" = "%20Skill%20Level%2C%20States%20and%20Territories%20-%20",
+    "4dig" = "4%20Occupations%2C%20States%20and%20Territories%20-%20",
+    "2dig_states" = "2%20Occupations%2C%20States%20and%20Territories%20-%20",
+    "2dig_regions" = "2%20Occupations%2C%20IVI%20Regions%20-%20"
+  )
 
   urls <- paste0(
     base_url,

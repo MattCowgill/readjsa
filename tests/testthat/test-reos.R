@@ -27,6 +27,8 @@ test_that("read_reos() works", {
   test_reos_file(read_reos(c("1.1", "1.2")))
   test_reos_file(read_reos())
 
-  expect_identical(read_reos(),
-                   read_reos("all"))
+  expect_identical(
+    read_reos(),
+    read_reos("all")
+  )
 })

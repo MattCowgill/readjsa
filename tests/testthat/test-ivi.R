@@ -21,12 +21,12 @@ test_that("read_ivi() works", {
   }
 
   # Test individual tables
-  purrr::walk(c("skill", "4dig", "2dig_states", "2dig_regions"),
-              \(x) read_ivi(x) |>
-                test_ivi_file()
-              )
+  purrr::walk(
+    c("skill", "4dig", "2dig_states", "2dig_regions"),
+    \(x) read_ivi(x) |>
+      test_ivi_file()
+  )
 
   # Test tables = "all"
   test_ivi_file(read_ivi("all"))
-
 })

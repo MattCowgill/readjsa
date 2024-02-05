@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-You can install the development version of readjsa from [GitHub](https://github.com/) with:
+You can install the development version of readjsa from [GitHub](https://github.com/) with :
 
 ``` r
 # install.packages("devtools")
@@ -45,9 +45,11 @@ library(dplyr)
 
 reos <- read_reos(tables = "all")
 
-reos |> 
-  filter(series == "Recruitment rate",
-         frequency == "Monthly") |> 
+reos |>
+  filter(
+    series == "Recruitment rate",
+    frequency == "Monthly"
+  ) |>
   ggplot(aes(x = date, y = value, col = disaggregation)) +
   geom_line()
 ```
@@ -59,14 +61,19 @@ There are several different tables in the IVI data, at different levels of aggre
 ```{r}
 ivi_states <- read_ivi("2dig_states")
 
-ivi_states |> 
-  filter(level == 1,
-         state != "AUST") |> 
-  ggplot(aes(x = date, y = value, col = series_type )) +
+ivi_states |>
+  filter(
+    level == 1,
+    state != "AUST"
+  ) |>
+  ggplot(aes(x = date, y = value, col = series_type)) +
   geom_line() +
   facet_wrap(~state,
-             scales = "free_y",
-             nrow = 2) +
-  theme(legend.position = "bottom",
-        legend.direction = "horizontal")
+    scales = "free_y",
+    nrow = 2
+  ) +
+  theme(
+    legend.position = "bottom",
+    legend.direction = "horizontal"
+  )
 ```
