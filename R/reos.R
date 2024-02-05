@@ -21,7 +21,8 @@
 read_reos <- function(tables = "all",
                       file = tempfile(fileext = ".xlsx")) {
 
-  reos_path <- dl_reos(file)
+  reos_path <- dl_file(urls = possible_reos_urls(),
+                       file)
 
   if (tables[1] == "all") {
     all_tables <- readxl::excel_sheets(file)
@@ -145,7 +146,7 @@ subtract_month <- function(date) {
   prev_month
 }
 
-get_reos_metadata <- function(reos_file = dl_reos()) {
+get_reos_metadata <- function(reos_file = dl_file(possible_reos_urls())) {
   reos_file |>
     readxl::read_excel(range = "Information!A12:E23") |>
     dplyr::rename_with(tolower) |>

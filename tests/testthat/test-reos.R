@@ -6,10 +6,10 @@ test_that("possible_reos_urls() works", {
   expect_length(urls, 2)
 })
 
-test_that("dl_reos() works", {
+test_that("dl_files() works", {
   reos_file <- tempfile(fileext = ".xlsx")
   expect_false(file.exists(reos_file))
-  reos_file <- dl_reos()
+  reos_file <- dl_file(possible_reos_urls())
   expect_true(file.exists(reos_file))
 })
 

@@ -3,10 +3,10 @@
 #' @param file Path to the file where the data should be saved
 #' @returns Returns the full path to the file where the data is saved.
 #'
-dl_reos <- function(file = tempfile(fileext = ".xlsx")) {
+dl_file <- function(urls,
+                    file = tempfile(fileext = ".xlsx")) {
   stopifnot(tools::file_ext(file) == "xlsx")
 
-  urls <- possible_reos_urls()
   stopifnot(length(urls) == 2)
 
   safely_dl <- purrr::safely(utils::download.file)
