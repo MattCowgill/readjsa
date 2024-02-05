@@ -1,3 +1,7 @@
+test_that("google.com works", {
+  expect_true(check_jsa_connection("https://www.google.com"))
+})
+
 test_that("possible_reos_urls() works", {
   urls <- possible_reos_urls()
 
