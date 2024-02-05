@@ -91,71 +91,13 @@ read_individual_reos_table <- function(file,
 
 
 
-#' Download data from the JSA Recruitment Experience & Outlook Survey
-#' @param file Path to the file where the data should be saved
-#' @returns Returns the full path to the file where the data is saved.
-#'
-dl_reos <- function(file = tempfile(fileext = ".xlsx")) {
-  stopifnot(tools::file_ext(file) == "xlsx")
 
-  urls <- possible_reos_urls()
-  stopifnot(length(urls) == 2)
-
-  safely_dl <- purrr::safely(utils::download.file)
-
-  latest_url_result <- safely_dl(
-    url = urls[1],
-    destfile = file,
-    mode = "wb",
-    quiet = TRUE
-  )
-
-  if (is.null(latest_url_result$error)) {
-    return(file)
-  }
-
-  prior_url_result <- safely_dl(
-    url = urls[2],
-    destfile = file,
-    mode = "wb",
-    quiet = TRUE
-  )
-
-  if (is.null(latest_url_result$error)) {
-    return(file)
-  } else {
-    stop(
-      "Could not download REOS file from urls: ",
-      paste(urls, collapse = ", or "),
-      "."
-    )
-  }
-}
 
 #' Given a date, identify two URLs for the JSA REOS data - corresponding to
 #' the previous two months.
 #' @returns A vector of URLs, length 2
 possible_reos_urls <- function() {
   this_month <- as.Date(format(Sys.Date(), "%Y-%m-01"))
-
-  subtract_month <- function(date) {
-    this_month_num <- as.numeric(format(date, "%m"))
-    this_year_num <- as.numeric(format(date, "%Y"))
-
-    prev_month_num <- ifelse(this_month_num == 1,
-      12,
-      this_month_num - 1
-    )
-
-    prev_year_num <- ifelse(this_month_num == 1,
-      this_year_num - 1,
-      this_year_num
-    )
-
-    prev_month <- as.Date(paste(prev_year_num, prev_month_num, "01", sep = "-"))
-
-    prev_month
-  }
 
   prev_month <- subtract_month(this_month)
 
@@ -182,6 +124,25 @@ possible_reos_urls <- function() {
   )
 
   urls
+}
+
+subtract_month <- function(date) {
+  this_month_num <- as.numeric(format(date, "%m"))
+  this_year_num <- as.numeric(format(date, "%Y"))
+
+  prev_month_num <- ifelse(this_month_num == 1,
+                           12,
+                           this_month_num - 1
+  )
+
+  prev_year_num <- ifelse(this_month_num == 1,
+                          this_year_num - 1,
+                          this_year_num
+  )
+
+  prev_month <- as.Date(paste(prev_year_num, prev_month_num, "01", sep = "-"))
+
+  prev_month
 }
 
 get_reos_metadata <- function(reos_file = dl_reos()) {
