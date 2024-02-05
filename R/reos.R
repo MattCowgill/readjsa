@@ -6,7 +6,7 @@
 #' @returns A tibble with the REOS data, in 'long'/tidy format
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' # Get a single table
 #'
 #' read_reos(tables = "1.1")
@@ -18,10 +18,13 @@
 #' # Get all tables
 #'
 #' read_reos(tables = "all")
+#' }
 read_reos <- function(tables = "all",
                       file = tempfile(fileext = ".xlsx")) {
-
-  reos_path <- dl_reos(file)
+  reos_path <- dl_file(
+    urls = possible_reos_urls(),
+    file
+  )
 
   if (tables[1] == "all") {
     all_tables <- readxl::excel_sheets(file)
@@ -131,13 +134,13 @@ subtract_month <- function(date) {
   this_year_num <- as.numeric(format(date, "%Y"))
 
   prev_month_num <- ifelse(this_month_num == 1,
-                           12,
-                           this_month_num - 1
+    12,
+    this_month_num - 1
   )
 
   prev_year_num <- ifelse(this_month_num == 1,
-                          this_year_num - 1,
-                          this_year_num
+    this_year_num - 1,
+    this_year_num
   )
 
   prev_month <- as.Date(paste(prev_year_num, prev_month_num, "01", sep = "-"))
@@ -145,7 +148,7 @@ subtract_month <- function(date) {
   prev_month
 }
 
-get_reos_metadata <- function(reos_file = dl_reos()) {
+get_reos_metadata <- function(reos_file = dl_file(possible_reos_urls())) {
   reos_file |>
     readxl::read_excel(range = "Information!A12:E23") |>
     dplyr::rename_with(tolower) |>

@@ -6,14 +6,22 @@ test_that("possible_reos_urls() works", {
   expect_length(urls, 2)
 })
 
-test_that("dl_reos() works", {
+test_that("dl_files() works", {
+  skip_if_offline()
+  skip_on_ci()
+  check_jsa_connection()
+
   reos_file <- tempfile(fileext = ".xlsx")
   expect_false(file.exists(reos_file))
-  reos_file <- dl_reos()
+  reos_file <- dl_file(possible_reos_urls())
   expect_true(file.exists(reos_file))
 })
 
 test_that("read_reos() works", {
+  skip_if_offline()
+  skip_on_ci()
+  check_jsa_connection()
+
   test_reos_file <- function(df) {
     expect_length(df, 7)
     expect_s3_class(df$date, "Date")
@@ -25,6 +33,8 @@ test_that("read_reos() works", {
   test_reos_file(read_reos(c("1.1", "1.2")))
   test_reos_file(read_reos())
 
-  expect_identical(read_reos(),
-                   read_reos("all"))
+  expect_identical(
+    read_reos(),
+    read_reos("all")
+  )
 })
