@@ -7,7 +7,9 @@ test_that("possible_reos_urls() works", {
 })
 
 test_that("dl_files() works", {
-  testthat::skip_if_offline()
+  skip_if_offline()
+  check_jsa_connection()
+
   reos_file <- tempfile(fileext = ".xlsx")
   expect_false(file.exists(reos_file))
   reos_file <- dl_file(possible_reos_urls())
@@ -15,7 +17,9 @@ test_that("dl_files() works", {
 })
 
 test_that("read_reos() works", {
-  testthat::skip_if_offline()
+  skip_if_offline()
+  check_jsa_connection()
+
   test_reos_file <- function(df) {
     expect_length(df, 7)
     expect_s3_class(df$date, "Date")
