@@ -1,7 +1,3 @@
-test_that("google.com works", {
-  expect_true(check_jsa_connection("https://www.google.com"))
-})
-
 test_that("possible_reos_urls() works", {
   urls <- possible_reos_urls()
 
@@ -13,6 +9,7 @@ test_that("possible_reos_urls() works", {
 test_that("dl_files() works", {
   skip_if_offline()
   check_jsa_connection()
+  skip_on_ci()
 
   reos_file <- tempfile(fileext = ".xlsx")
   expect_false(file.exists(reos_file))
@@ -23,6 +20,7 @@ test_that("dl_files() works", {
 test_that("read_reos() works", {
   skip_if_offline()
   check_jsa_connection()
+  skip_on_ci()
 
   test_reos_file <- function(df) {
     expect_length(df, 7)

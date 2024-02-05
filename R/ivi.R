@@ -6,7 +6,7 @@
 #' @returns A tibble with the REOS data, in 'long'/tidy format
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' # Get a single table
 #' read_ivi("4dig")
 #'
@@ -15,7 +15,7 @@
 #'
 #' # Get all tables
 #' read_ivi("all")
-#'
+#' }
 read_ivi <- function(tables,
                      path = tempdir()) {
   stopifnot(tables %in% c("all", "skill", "4dig", "2dig_states", "2dig_regions"))

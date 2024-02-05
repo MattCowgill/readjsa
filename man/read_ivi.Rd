@@ -19,7 +19,7 @@ A tibble with the REOS data, in 'long'/tidy format
 Read data from Jobs & Skills Australia's Internet Vacancy Index (IVI)
 }
 \examples{
-
+\dontrun{
 # Get a single table
 read_ivi("4dig")
 
@@ -28,5 +28,5 @@ read_ivi(c("4dig", "2dig_states"))
 
 # Get all tables
 read_ivi("all")
-
+}
 }

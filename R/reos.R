@@ -6,7 +6,7 @@
 #' @returns A tibble with the REOS data, in 'long'/tidy format
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' # Get a single table
 #'
 #' read_reos(tables = "1.1")
@@ -18,6 +18,7 @@
 #' # Get all tables
 #'
 #' read_reos(tables = "all")
+#' }
 read_reos <- function(tables = "all",
                       file = tempfile(fileext = ".xlsx")) {
   reos_path <- dl_file(
