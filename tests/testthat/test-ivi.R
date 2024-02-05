@@ -7,11 +7,13 @@ test_that("possible_ivi_urls() works", {
 })
 
 test_that("dl_files() works", {
+  testthat::skip_if_offline()
   ivi_file <- dl_file(possible_ivi_urls("4dig"))
   expect_true(file.exists(ivi_file))
 })
 
 test_that("read_ivi() works", {
+  testthat::skip_if_offline()
   test_ivi_file <- function(df) {
     expect_s3_class(df$date, "Date")
     expect_type(df$value, "double")

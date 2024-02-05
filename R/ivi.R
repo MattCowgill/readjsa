@@ -7,6 +7,15 @@
 #' @export
 #' @examples
 #'
+#' # Get a single table
+#' read_ivi("4dig")
+#'
+#' # Get multiple tables
+#' read_ivi(c("4dig", "2dig_states"))
+#'
+#' # Get all tables
+#' read_ivi("all")
+#'
 read_ivi <- function(tables,
                      path = tempdir()) {
   stopifnot(tables %in% c("all", "skill", "4dig", "2dig_states", "2dig_regions"))
@@ -37,6 +46,7 @@ dl_and_read_ivi_table <- function(table,
 
 }
 
+#' @autoglobal
 read_individual_ivi_table <- function(file,
                                       table) {
   stopifnot(file.exists(file))
