@@ -57,7 +57,7 @@ reos |>
   geom_line()
 ```
 
-### Getting data from the JSA IVI
+### Getting data from the JSA IVI - `read_ivi()`
 
 There are several different tables in the IVI data, at different levels of aggregation. See `?read_ivi()`. In the example below, we're visualising total job vacancies at the state level.
 

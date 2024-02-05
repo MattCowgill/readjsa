@@ -65,7 +65,7 @@ reos |>
 
 <img src="man/figures/README-reos-example-1.png" width="100%" />
 
-### Getting data from the JSA IVI
+### Getting data from the JSA IVI - `read_ivi()`
 
 There are several different tables in the IVI data, at different levels
 of aggregation. See `?read_ivi()`. In the example below, we’re
