@@ -1,7 +1,7 @@
 #' Read data from Jobs & Skills Australia's Internet Vacancy Index (IVI)
 #'
 #' @param tables A vector of tables to read, or "all" to read all tables.
-#' Possible options are `c("all", skill", "4dig", "2dig_states", "2dig_regions")`
+#' Possible options are `c("all", "skill", "4dig", "2dig_states", "2dig_regions")`
 #' @param path Path to the directory where the file(s) should be saved
 #' @returns A tibble with the REOS data, in 'long'/tidy format
 #' @export
@@ -16,7 +16,7 @@
 #' # Get all tables
 #' read_ivi("all")
 #' }
-read_ivi <- function(tables,
+read_ivi <- function(tables = "all",
                      path = tempdir()) {
   stopifnot(tables %in% c("all", "skill", "4dig", "2dig_states", "2dig_regions"))
 
@@ -105,8 +105,14 @@ read_individual_ivi_table <- function(file,
   tidy_sheet
 }
 
-# Form a vector of 2 possible URLs for the latest JSA IVI URLs for a given table
-possible_ivi_urls <- function(table) {
+# Form a vector of possible URLs for the latest JSA IVI URLs for a given table
+possible_ivi_urls <- function(table = c("skill",
+                                        "4dig",
+                                        "2dig_states",
+                                        "2dig_regions")) {
+
+  table <- match.arg(table)
+
   this_month <- as.Date(format(Sys.Date(), "%Y-%m-01"))
 
   prev_month <- subtract_month(this_month)
@@ -115,10 +121,7 @@ possible_ivi_urls <- function(table) {
   prev_month_short <- format(prev_month, "%Y-%m")
 
   month_to_url_text <- function(date) {
-    paste(format(date, "%B"),
-      format(date, "%Y"),
-      sep = "%20"
-    )
+    tolower(format(date, "%B_%Y"))
   }
 
   prev_month_long <- month_to_url_text(prev_month)
@@ -127,10 +130,10 @@ possible_ivi_urls <- function(table) {
   base_url <- "https://www.jobsandskills.gov.au/sites/default/files/"
 
   table_specific_url_fragment <- switch(table,
-    "skill" = "%20Skill%20Level%2C%20States%20and%20Territories%20-%20",
-    "4dig" = "4%20Occupations%2C%20States%20and%20Territories%20-%20",
-    "2dig_states" = "2%20Occupations%2C%20States%20and%20Territories%20-%20",
-    "2dig_regions" = "2%20Occupations%2C%20IVI%20Regions%20-%20"
+    "skill" = "internet_vacancies_anzsco_skill_level_states_and_territories_-_",
+    "4dig" = "internet_vacancies_anzsco4_occupations_states_and_territories_-_",
+    "2dig_states" = "internet_vacancies_anzsco2_occupations_states_and_territories_-_",
+    "2dig_regions" = "internet_vacancies_anzsco2_occupations_ivi_regions_-_"
   )
 
   urls <- paste0(
@@ -139,7 +142,7 @@ possible_ivi_urls <- function(table) {
       this_month_short,
       prev_month_short
     ),
-    "/Internet%20Vacancies%2C%20ANZSCO",
+    "/",
     table_specific_url_fragment,
     c(
       prev_month_long,

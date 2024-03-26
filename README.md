@@ -13,10 +13,9 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 {readjsa} streamlines the process of getting data from [Jobs and Skills
 Australia](https://www.jobsandskills.gov.au) into R.
 
-Note that this package is marked **experimental**. The existing
-functionality is stable, but brittle. Any changes by JSA to its data and
-how it’s distributed are likely to break the functionality of the
-package, at least temporarily.
+Note that this package is marked **experimental**. The code is stable,
+but brittle. Any changes by JSA to its data and how it’s distributed are
+likely to break the functionality of the package, at least temporarily.
 
 ## Installation
 

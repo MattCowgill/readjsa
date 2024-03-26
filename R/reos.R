@@ -41,47 +41,45 @@ read_reos <- function(tables = "all",
 #' @autoglobal
 read_individual_reos_table <- function(file,
                                        table) {
-  skip_n <- switch(table,
-    "1.1" = 12,
-    "1.2" = 12,
-    "1.3" = 9,
-    "2.1" = 11,
-    "2.2" = 11,
-    "3.1" = 12,
-    "3.2" = 11,
-    "4.1" = 12,
-    "4.2" = 12,
-    "4.3" = 12,
-    "4.4" = 12
-  )
 
   metadata <- get_reos_metadata(file) |>
     dplyr::mutate(table = as.character(table))
 
+  table_sheets <- readxl::excel_sheets(file)
+
+  table_sheet_name <- table_sheets[grepl(table, table_sheets)]
+
+  topic <- substr(table_sheet_name, 5, nchar(table_sheet_name))
+
   raw_table <- readxl::read_excel(file,
-    skip = skip_n,
-    sheet = paste0(
-      "Table ",
-      table
-    )
+    sheet = table_sheet_name,
+    col_names = FALSE,
+    .name_repair = "minimal"
   )
 
+  first_row <- which(
+    tolower(raw_table[[1]]) %in% c("month", "quarter")
+  )[1]
+
+  colnames(raw_table) <- raw_table[first_row, ]
   colnames(raw_table)[1] <- "date"
+  raw_table <- raw_table[(first_row + 1):nrow(raw_table), ]
 
   raw_table |>
     dplyr::mutate(
       dplyr::across(
-        !date,
+        dplyr::everything(),
         \(x) suppressWarnings(
           as.numeric(x)
         )
       ),
-      date = as.Date(date)
+      date = janitor::excel_numeric_to_date(date)
     ) |>
     tidyr::pivot_longer(!date,
       names_to = "disaggregation"
     ) |>
-    dplyr::mutate(table = table) |>
+    dplyr::mutate(table = as.character(table),
+                  topic = topic) |>
     dplyr::left_join(metadata,
       by = "table"
     ) |>
@@ -150,9 +148,8 @@ subtract_month <- function(date) {
 
 get_reos_metadata <- function(reos_file = dl_file(possible_reos_urls())) {
   reos_file |>
-    readxl::read_excel(range = "Information!A12:E23") |>
+    readxl::read_excel(range = "Information!B15:E27") |>
     dplyr::rename_with(tolower) |>
-    tidyr::fill(topic) |>
     dplyr::mutate(table = readr::parse_number(table)) |>
-    dplyr::select(topic, series, frequency, table)
+    dplyr::select(series, frequency, table)
 }

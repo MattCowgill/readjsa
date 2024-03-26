@@ -9,8 +9,6 @@ utils::globalVariables(c(
   "series",
   # <read_individual_ivi_table>
   "series_type",
-  # <read_individual_reos_table>
-  "topic",
   # <read_individual_ivi_table>
   # <read_individual_reos_table>
   "value",

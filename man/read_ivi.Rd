@@ -4,11 +4,11 @@
 \alias{read_ivi}
 \title{Read data from Jobs & Skills Australia's Internet Vacancy Index (IVI)}
 \usage{
-read_ivi(tables, path = tempdir())
+read_ivi(tables = "all", path = tempdir())
 }
 \arguments{
 \item{tables}{A vector of tables to read, or "all" to read all tables.
-Possible options are \verb{c("all", skill", "4dig", "2dig_states", "2dig_regions")}}
+Possible options are \code{c("all", "skill", "4dig", "2dig_states", "2dig_regions")}}
 
 \item{path}{Path to the directory where the file(s) should be saved}
 }
