@@ -10,15 +10,6 @@ dl_file <- function(urls,
 
   check_jsa_connection()
 
-  safely_dl <- purrr::safely(\(...) {
-    utils::download.file(...,
-      mode = "wb",
-      quiet = TRUE,
-      cacheOK = FALSE,
-      headers = c("User-Agent" = "User of readjsa R package: https://github.com/MattCowgill/readjsa")
-    )
-  })
-
   latest_url_result <- suppressWarnings(safely_dl(
     url = urls[1],
     destfile = file
@@ -43,3 +34,14 @@ dl_file <- function(urls,
     )
   }
 }
+
+# Convenience function wrapping download.file to specify headers and catch errors
+safely_dl <- purrr::safely(\(...) {
+  utils::download.file(
+    ...,
+    mode = "wb",
+    quiet = TRUE,
+    cacheOK = FALSE,
+    headers = c("User-Agent" = "User of readjsa R package: https://github.com/MattCowgill/readjsa")
+  )
+})
