@@ -32,13 +32,13 @@ read_salm <- function(tables = "all",
     paste0("jsa_salm_", geog_type, ".csv")
   )
 
-  # Download if the files has not been downloaded already
+  # Download if not downloaded already
   if (file.exists(temp_file_loc) == FALSE){
     urls <- get_salm_urls()
     dl_salm(urls[geog_type], temp_file_loc)
   }
 
-  # Process the data
+  # Process and return the data
   process_salm(temp_file_loc, tables)
 }
 
@@ -54,11 +54,11 @@ get_salm_urls <- function() {
   rvest_html <- rvest::minimal_html(resp_html) # Convert to rvest-parsable html
 
   links <- rvest_html |> rvest::html_elements("a") |> rvest::html_attr("href") # Get character vector of links
-  csv_files <- grep(".csv$", links, value = TRUE) # Extract excel files
+  csv_files <- grep(".csv$", links, value = TRUE) # Extract .csv files
 
   urls <- paste0("https://www.jobsandskills.gov.au", c(
-    grep("LGA", csv_files, value = TRUE), # Identify excel file with LGA data
-    grep("SA2", csv_files, value = TRUE)  # Identify excel file with SA2 data
+    grep("LGA", csv_files, value = TRUE), # Identify .csv file with LGA data
+    grep("SA2", csv_files, value = TRUE)  # Identify .csv file with SA2 data
   ))
   names(urls) <- c("LGA", "SA2")
   return(urls)
@@ -123,15 +123,26 @@ process_salm <- function(file_path, tables = "all"){
     salm_dat_split <- salm_dat_split[selected_tables]
   }
 
+  # Convenience function to convert to proper date data
+  fix_dates <- function(dates){
+    chr_dates <- gsub("_", " ", dates) # Drop the underscore
+    chr_dates <- sub("(.)", ("\\U\\1"), tolower(chr_dates), pe = TRUE) # Convert to proper
+    chr_dates <- paste("01", chr_dates) # Paste in the day
+    as.Date(chr_dates, format = "%d %b %y") # Convert to date
+  }
+
   # Tidy each dataset required
   salm_dat_tidy <- purrr::map(
     salm_dat_split,
-    ~ tidyr::pivot_longer(
-      data = .x,
-      cols = dplyr::matches(".*\\d+$", perl = TRUE),
-      names_to = "quarter",
-      values_to = "value"
-    )
+    \(.x){
+      tidyr::pivot_longer(
+        data = .x,
+        cols = dplyr::matches(".*\\d+$", perl = TRUE),
+        names_to = "quarter",
+        values_to = "value"
+      ) |>
+      dplyr::mutate(quarter = fix_dates(quarter))
+    }
   )
 
   # Return either a tibble or list of tibbles
