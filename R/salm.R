@@ -134,13 +134,14 @@ process_salm <- function(file_path, tables = "all"){
   salm_dat_tidy <- purrr::map(
     salm_dat_split,
     \(.x){
-      tidyr::pivot_longer(
+      df <- tidyr::pivot_longer(
         data = .x,
         cols = dplyr::matches(".*\\d+$", perl = TRUE),
         names_to = "quarter",
         values_to = "value"
-      ) |>
-      dplyr::mutate(quarter = fix_dates(quarter))
+      )
+      df$quarter <- fix_dates(df$quarter)
+      return(df)
     }
   )
 
