@@ -64,7 +64,7 @@ get_salm_urls <- function() {
 }
 
 # Function to safely download SALM data
-dl_salm <- function(url, path){
+dl_salm <- function(url, path, quiet = TRUE){
 
   # Check connection
   check_jsa_connection()
@@ -77,7 +77,9 @@ dl_salm <- function(url, path){
 
   # If there's any result, return it
   if (is.null(latest_url_result$error)) {
-    cat("Successfully downloaded data from:\n", utils::URLdecode(url), "\n")
+    if (quiet == FALSE){
+      cat("Successfully downloaded data from:\n", utils::URLdecode(url), "\n")
+    }
   }
 
   # Otherwise, return the error
