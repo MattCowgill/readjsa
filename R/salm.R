@@ -42,8 +42,7 @@ read_salm <- function(tables = "all",
   process_salm(temp_file_loc, tables)
 }
 
-#' Identify URLs for the JSA SALM data - SA2 and LGA level data
-#' @returns A vector of URLs, length 2
+# Identify URLs for the JSA SALM data - SA2 and LGA level data
 get_salm_urls <- function() {
 
   # Check SALM url for links to excel
@@ -126,7 +125,7 @@ process_salm <- function(file_path, tables = "all"){
   # Convenience function to convert to proper date data
   fix_dates <- function(dates){
     chr_dates <- gsub("_", " ", dates) # Drop the underscore
-    chr_dates <- sub("(.)", ("\\U\\1"), tolower(chr_dates), pe = TRUE) # Convert to proper
+    chr_dates <- sub("(.)", ("\\U\\1"), tolower(chr_dates), perl = TRUE) # Convert to proper
     chr_dates <- paste("01", chr_dates) # Paste in the day
     as.Date(chr_dates, format = "%d %b %y") # Convert to date
   }

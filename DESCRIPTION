@@ -22,6 +22,9 @@ Imports:
     purrr,
     readr,
     readxl,
-    tidyr
+    tidyr,
+    rvest,
+    rlang,
+    httr2
 Config/roxyglobals/filename: globals.R
 Config/roxyglobals/unique: TRUE
