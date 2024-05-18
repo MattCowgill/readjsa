@@ -10,6 +10,8 @@ dl_file <- function(urls,
 
   check_jsa_connection()
 
+  urls <- utils::URLencode(urls) # Ensure url strings have valid encoding
+
   safely_dl <- purrr::safely(\(...) {
     utils::download.file(...,
       mode = "wb",
@@ -37,7 +39,7 @@ dl_file <- function(urls,
     return(file)
   } else {
     stop(
-      "Could not download REOS file from urls: ",
+      "Could not download file from urls: ",
       paste(urls, collapse = ", or "),
       "."
     )
