@@ -46,7 +46,8 @@ read_salm <- function(tables = "all",
 get_salm_urls <- function() {
 
   # Check SALM url for links to excel
-  req <- httr2::request("https://www.jobsandskills.gov.au/data/small-area-labour-markets")
+  req <- httr2::request("https://www.jobsandskills.gov.au/data/small-area-labour-markets") |>
+    httr2::req_options(http_version=2) # Set to HTTP 1.1
   resp <- httr2::req_perform(req) # Perform request
 
   resp_html <- httr2::resp_body_string(resp) # Convert response to string
