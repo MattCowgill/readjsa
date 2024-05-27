@@ -30,9 +30,10 @@ devtools::install_github("MattCowgill/readjsa")
 ## Usage
 
 At the moment, `{readjsa}` can be used to get data from the Recruitment
-Experience & Outlook Survey (REOS) or the Internet Vacancy Index (IVI).
-The functions for doing so are `read_reos` and `read_ivi` respectively -
-see below for more.
+Experience & Outlook Survey (REOS), the Internet Vacancy Index (IVI),
+and Small Area Labour Markets (SALM). The functions for doing so are
+`read_reos`, `read_ivi`, and `read_salm` respectively - see below for
+more.
 
 ### Getting REOS data - `read_reos()`
 
@@ -90,4 +91,33 @@ ivi_states |>
   )
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+### Getting SAML data - `read_salm()`
+
+There are three SALM tables (total labour force in persons, total
+unemployment in persons, and unemployment rate) available by either
+Statistical Area Level 2 (SA2) and Local Government Area (LGA) levels.
+See `?read_salm()` for more information, and [the JSA
+website](https://www.jobsandskills.gov.au/data/small-area-labour-markets)
+for methodology and usage recommendations.
+
+In this example, we visualise smoothed estimates of unemployment rates
+across five LGAs in Perth since 2010.
+
+``` r
+salm_LGA <- read_salm("unemp_rate")
+perth_LGAs <- c("Stirling", "Joondalup", "Nedlands", "Swan", "Rockingham")
+
+salm_LGA |>
+  rename(LGA = local_government_area_lga_2023_asgs) |>
+  filter(
+    LGA %in% perth_LGAs
+  ) |>
+  ggplot(aes(
+    x = quarter,
+    y = value,
+    col = LGA
+  )) + 
+  geom_line()
+```
+
+<img src="man/figures/README-salm-example-1.png" width="100%" />
