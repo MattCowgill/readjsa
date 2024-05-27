@@ -1,6 +1,6 @@
 Package: readjsa
 Title: Read data from Jobs & Skills Australia in a tidy tibble
-Version: 0.0.0.920
+Version: 0.0.0.930
 Authors@R: 
   c(
     person("Matt", "Cowgill", , "mattcowgill@gmail.com", role = c("aut", "cre"),

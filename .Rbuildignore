@@ -4,3 +4,6 @@
 ^README\.Rmd$
 ^\.github$
 ^LICENSE\.md$
+^readjsa\.Rcheck$
+^readjsa.*\.tar\.gz$
+^readjsa.*\.tgz$
