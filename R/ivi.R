@@ -121,7 +121,7 @@ possible_ivi_urls <- function(table = c("skill",
   prev_month_short <- format(prev_month, "%Y-%m")
 
   month_to_url_text <- function(date) {
-    tolower(format(date, "%B_%Y"))
+    format(date, "%B %Y")
   }
 
   prev_month_long <- month_to_url_text(prev_month)
@@ -130,10 +130,10 @@ possible_ivi_urls <- function(table = c("skill",
   base_url <- "https://www.jobsandskills.gov.au/sites/default/files/"
 
   table_specific_url_fragment <- switch(table,
-    "skill" = "internet_vacancies_anzsco_skill_level_states_and_territories_-_",
-    "4dig" = "internet_vacancies_anzsco4_occupations_states_and_territories_-_",
-    "2dig_states" = "internet_vacancies_anzsco2_occupations_states_and_territories_-_",
-    "2dig_regions" = "internet_vacancies_anzsco2_occupations_ivi_regions_-_"
+    "skill" = "Internet Vacancies, ANZSCO Skill Level, States and Territories - ",
+    "4dig" = "Internet Vacancies, ANZSCO4 Occupations, States and Territories - ",
+    "2dig_regions" = "Internet Vacancies, ANZSCO2 Occupations, IVI Regions - ",
+    "2dig_states" = "Internet Vacancies, ANZSCO2 Occupations, States and Territories - "
   )
 
   urls <- paste0(
