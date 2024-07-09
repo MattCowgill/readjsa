@@ -1,3 +1,6 @@
+# readjsa 0.0.0.930
+* read_salm() function added by @awhug
+
 # readjsa 0.0.0.920
 * A fix thanks to @awhug for some JSA IVI URL changes 
 

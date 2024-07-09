@@ -2,3 +2,4 @@
 
 export(read_ivi)
 export(read_reos)
+export(read_salm)
