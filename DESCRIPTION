@@ -5,7 +5,8 @@ Authors@R:
   c(
     person("Matt", "Cowgill", , "mattcowgill@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-0422-3300")),
-    person("Angus", "Hughes", role = "ctb")
+    person("Angus", "Hughes", role = "ctb"),
+    person("Amee", "McMillan", role = "ctb")
            )
 Description: Download, import, and tidy Jobs & Skills Australia data.
 License: MIT + file LICENSE
