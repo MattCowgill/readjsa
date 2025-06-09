@@ -30,10 +30,10 @@ check_jsa_connection <- function(url = "https://www.jobsandskills.gov.au") {
 url_exists <- function(url = "https://www.jobsandskills.gov.au") {
   safe_request <- function(method) {
     tryCatch({
-      resp <- request(url) |>
-        req_method(method) |>
-        req_timeout(1) |>
-        req_perform()
+      resp <- httr2::request(url) |>
+        httr2::req_method(method) |>
+        httr2::req_timeout(1) |>
+        httr2::req_perform()
       resp
     }, error = function(e) NULL)
   }
@@ -41,7 +41,7 @@ url_exists <- function(url = "https://www.jobsandskills.gov.au") {
   # Try HEAD first
   resp <- safe_request("HEAD")
 
-  if (is.null(resp) || ((resp_status(resp) %/% 100) != 2)) {
+  if (is.null(resp) || ((httr2::resp_status(resp) %/% 100) != 2)) {
     # Fallback to GET
     resp <- safe_request("GET")
 
@@ -49,8 +49,8 @@ url_exists <- function(url = "https://www.jobsandskills.gov.au") {
       return(FALSE)
     }
 
-    if ((resp_status(resp) %/% 100) != 2) {
-      warning(sprintf("[%s] appears to be online but isn't responding as expected; HTTP status code is not in the 200–299 range", url))
+    if ((httr2::resp_status(resp) %/% 100) != 2) {
+      warning(sprintf("[%s] appears to be online but isn't responding as expected; HTTP status code is not in the 200 to 299 range", url))
       return(FALSE)
     }
     return(TRUE)

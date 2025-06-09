@@ -1,6 +1,6 @@
 Package: readjsa
 Title: Read data from Jobs & Skills Australia in a tidy tibble
-Version: 0.0.0.930
+Version: 0.0.1
 Authors@R: 
   c(
     person("Matt", "Cowgill", , "mattcowgill@gmail.com", role = c("aut", "cre"),
@@ -13,7 +13,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE, roclets = c("collate", "namespace", "rd",
     "roxyglobals::global_roclet"))
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Suggests: 
     roxyglobals,
     testthat (>= 3.0.0),
@@ -21,7 +21,6 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     dplyr,
-    httr,
     janitor,
     purrr,
     readr,
