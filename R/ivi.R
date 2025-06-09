@@ -27,9 +27,9 @@ read_ivi <- function(tables = "all",
   }
 
   purrr::map_dfr(tables_to_read,
-    dl_and_read_ivi_table,
-    path = path,
-    .progress = "Reading IVI"
+                 dl_and_read_ivi_table,
+                 path = path,
+                 .progress = "Reading IVI"
   )
 }
 
@@ -58,21 +58,21 @@ read_individual_ivi_table <- function(file,
   stopifnot(table %in% c("skill", "4dig", "2dig_states", "2dig_regions"))
 
   sheet <- switch(table,
-    "skill" = c("Trend", "Seasonally Adjusted"),
-    "4dig" = "4 digit 3 month average",
-    "2dig_states" = c("Trend", "Seasonally Adjusted"),
-    "2dig_regions" = "Averaged"
+                  "skill" = c("Trend", "Seasonally Adjusted"),
+                  "4dig" = "4 digit 3 month average",
+                  "2dig_states" = c("Trend", "Seasonally Adjusted"),
+                  "2dig_regions" = "Averaged"
   )
 
   raw_sheet <- purrr::map_dfr(
     sheet,
     \(x) readxl::read_excel(file,
-      sheet = x
+                            sheet = x
     ) |>
       dplyr::mutate(series_type = x) |>
       dplyr::mutate(series_type = dplyr::if_else(series_type %in% c("Trend", "Seasonally Adjusted"),
-        series_type,
-        "3mma"
+                                                 series_type,
+                                                 "3mma"
       ))
   )
 
@@ -124,17 +124,18 @@ possible_ivi_urls <- function(table = c("skill",
     format(date, "%B %Y")
   }
 
-  prev_month_long <- month_to_url_text(prev_month)
-  two_months_ago_long <- month_to_url_text(subtract_month(prev_month))
+  prev_month_long <- gsub(" ", "_", tolower(month_to_url_text(prev_month)))
+  two_months_ago_long <- gsub(" ", "_", tolower(month_to_url_text(subtract_month(prev_month))))
 
   base_url <- "https://www.jobsandskills.gov.au/sites/default/files/"
 
   table_specific_url_fragment <- switch(table,
-    "skill" = "Internet Vacancies, ANZSCO Skill Level, States and Territories - ",
-    "4dig" = "Internet Vacancies, ANZSCO4 Occupations, States and Territories - ",
-    "2dig_regions" = "Internet Vacancies, ANZSCO2 Occupations, IVI Regions - ",
-    "2dig_states" = "Internet Vacancies, ANZSCO2 Occupations, States and Territories - "
+                                        "skill" = "internet_vacancies_anzsco_skill_level_states_and_territories_-_",
+                                        "4dig" = "internet_vacancies_anzsco4_occupations_states_and_territories_-_",
+                                        "2dig_regions" = "internet_vacancies_anzsco2_occupations_ivi_regions_-_",
+                                        "2dig_states" = "internet_vacancies_anzsco2_occupations_states_and_territories_-_"
   )
+
 
   urls <- paste0(
     base_url,

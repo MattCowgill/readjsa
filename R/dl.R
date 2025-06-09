@@ -5,8 +5,6 @@
 #'
 dl_file <- function(urls,
                     file = tempfile(fileext = ".xlsx")) {
-  stopifnot(tools::file_ext(file) == "xlsx")
-  stopifnot(length(urls) == 2)
 
   check_jsa_connection()
 

@@ -16,7 +16,7 @@ Possible options are \code{c("LGA", "SA2")}}
 \item{path}{Path to the directory where the file(s) should be saved}
 }
 \value{
-A tibble/list of tibbles with the SALM data, in 'long'/tidy format
+A tibble with the SALM data, in 'long'/tidy format
 }
 \description{
 Read data from Jobs & Skills Australia's Small Area Labour Markets (SALM)

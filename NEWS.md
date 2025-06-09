@@ -1,3 +1,8 @@
+# readjsa 0.0.1
+* BREAKING CHANGE: read_salm() now always returns a tibble (not a list of tibbles)
+* Bug fixes to correct for changes in source data and website(s) (thanks to Amee McMillan
+for fixing read_ivi())
+
 # readjsa 0.0.0.930
 * read_salm() function added by @awhug
 
