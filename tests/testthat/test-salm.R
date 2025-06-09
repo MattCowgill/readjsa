@@ -1,4 +1,7 @@
 test_that("get_salm_urls () works", {
+  skip_if_offline()
+  skip_on_ci()
+  check_jsa_connection()
   urls <- get_salm_urls()
 
   expect_type(urls, "character")
